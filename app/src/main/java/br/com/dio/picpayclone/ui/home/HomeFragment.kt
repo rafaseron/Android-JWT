@@ -5,24 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import br.com.dio.picpayclone.Componentes
 import br.com.dio.picpayclone.ComponentesViewModel
 import br.com.dio.picpayclone.R
 import br.com.dio.picpayclone.data.Transacao
 import br.com.dio.picpayclone.extension.formatarMoeda
-import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private val componentesViewModel: ComponentesViewModel by sharedViewModel()
     private val homeViewModel: HomeViewModel by viewModel()
     private val controlador by lazy { findNavController() }
+
+    // variaveis lateinit para usar no findViewById
+    private lateinit var textViewLabelSaldo: TextView
+    private lateinit var textViewSaldo: TextView
+    private lateinit var progressBarSaldo: ProgressBar
+    private lateinit var progressBarTransferencia: ProgressBar
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +44,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         componentesViewModel.temComponentes = Componentes(bottomNavigation = true)
+
+        // Inicializar as variaveis usando findViewById
+        textViewLabelSaldo = view.findViewById(R.id.textViewLabelSaldo)
+        textViewSaldo = view.findViewById(R.id.textViewSaldo)
+        progressBarSaldo = view.findViewById(R.id.progressBarSaldo)
+        progressBarTransferencia = view.findViewById(R.id.progressBarTransferencia)
+        recyclerView = view.findViewById(R.id.recyclerView)
+
         observarSaldo()
         observarTransferencias()
         observarErroSaldo()

@@ -3,10 +3,10 @@ package br.com.dio.picpayclone.ui.pagar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.dio.picpayclone.R
 import br.com.dio.picpayclone.data.Usuario
-import kotlinx.android.synthetic.main.item_contato.view.*
 
 class PagarAdapter(val usuarios: List<Usuario>, val onClick: (Usuario) -> Unit) :
     RecyclerView.Adapter<PagarAdapter.ViewHolder>() {
@@ -24,6 +24,11 @@ class PagarAdapter(val usuarios: List<Usuario>, val onClick: (Usuario) -> Unit) 
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        // findViewById
+        private val textViewNome: TextView = itemView.findViewById(R.id.textViewNome)
+        private val textViewNomeCompleto: TextView = itemView.findViewById(R.id.textViewNomeCompleto)
+
         fun bind(usuario: Usuario) {
             with(itemView) {
                 textViewNome.text = usuario.login
