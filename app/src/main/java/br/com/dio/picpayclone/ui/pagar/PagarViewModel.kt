@@ -8,8 +8,9 @@ import br.com.dio.picpayclone.data.Usuario
 import br.com.dio.picpayclone.data.UsuarioLogado
 import br.com.dio.picpayclone.services.ApiService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
-class PagarViewModel(private val apiService: ApiService) : ViewModel() {
+class PagarViewModel(private val apiService: ApiService): ViewModel(), KoinComponent {
 
     private val _contatos = MutableLiveData<List<Usuario>>()
     val contatos: LiveData<List<Usuario>> = _contatos

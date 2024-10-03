@@ -7,7 +7,7 @@ import br.com.dio.picpayclone.ui.ajuste.AjusteViewModel
 import br.com.dio.picpayclone.ui.home.HomeViewModel
 import br.com.dio.picpayclone.ui.pagar.PagarViewModel
 import br.com.dio.picpayclone.ui.transacao.TransacaoViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {

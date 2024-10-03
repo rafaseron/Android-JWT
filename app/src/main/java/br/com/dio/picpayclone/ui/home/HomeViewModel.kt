@@ -8,8 +8,9 @@ import br.com.dio.picpayclone.data.Transacao
 import br.com.dio.picpayclone.data.UsuarioLogado
 import br.com.dio.picpayclone.services.ApiService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
-class HomeViewModel(private val apiService: ApiService) : ViewModel() {
+class HomeViewModel(private val apiService: ApiService) : ViewModel(), KoinComponent {
 
     private val _saldo = MutableLiveData(0.0)
     val saldo: LiveData<Double> = _saldo

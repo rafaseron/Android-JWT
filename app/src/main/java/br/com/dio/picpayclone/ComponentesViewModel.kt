@@ -3,8 +3,9 @@ package br.com.dio.picpayclone
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import org.koin.core.component.KoinComponent
 
-class ComponentesViewModel : ViewModel() {
+class ComponentesViewModel : ViewModel(), KoinComponent {
 
     private val _componentes = MutableLiveData<Componentes>().also {
         it.value = temComponentes
