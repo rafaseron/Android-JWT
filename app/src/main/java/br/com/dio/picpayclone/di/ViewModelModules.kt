@@ -1,8 +1,6 @@
 package br.com.dio.picpayclone.di
 
 import br.com.dio.picpayclone.ComponentesViewModel
-import br.com.dio.picpayclone.services.ApiService
-import br.com.dio.picpayclone.services.RetrofitService
 import br.com.dio.picpayclone.ui.ajuste.AjusteViewModel
 import br.com.dio.picpayclone.ui.home.HomeViewModel
 import br.com.dio.picpayclone.ui.pagar.PagarViewModel
@@ -16,8 +14,4 @@ val viewModelModule = module {
     viewModel { PagarViewModel(get()) }
     viewModel { AjusteViewModel() }
     viewModel { TransacaoViewModel(get()) }
-}
-
-val serviceModule = module {
-    single { RetrofitService.create<ApiService>() }
 }
