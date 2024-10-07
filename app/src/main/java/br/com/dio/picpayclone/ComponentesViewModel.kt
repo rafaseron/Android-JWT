@@ -5,11 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.koin.core.component.KoinComponent
 
-class ComponentesViewModel : ViewModel(), KoinComponent {
+data class ComponentesUiState(
+    val bottomNavigation: Boolean = false,
+)
 
-    private val _componentes = MutableLiveData<Componentes>().also {
-        it.value = temComponentes
-    }
+class ComponentesViewModel :
+    ViewModel(),
+    KoinComponent {
+    private val _componentes =
+        MutableLiveData<Componentes>().also {
+            it.value = temComponentes
+        }
     val componentes: LiveData<Componentes> = _componentes
 
     var temComponentes = Componentes()
@@ -18,8 +24,15 @@ class ComponentesViewModel : ViewModel(), KoinComponent {
             _componentes.value = value
         }
 
+    fun hideBottomNavigation()  {
+        _componentes.value = _componentes.value?.copy(bottomNavigation = false)
+    }
+
+    fun showBottomNavigation()  {
+        _componentes.value = _componentes.value?.copy(bottomNavigation = true)
+    }
 }
 
 data class Componentes(
-    val bottomNavigation: Boolean = false
+    val bottomNavigation: Boolean = false,
 )
