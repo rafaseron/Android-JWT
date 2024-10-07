@@ -1,5 +1,6 @@
 package br.com.dio.picpayclone.di
 
+import br.com.dio.picpayclone.services.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -10,7 +11,8 @@ val serviceModule =
     module {
         single { provideRetrofit(get()) }
         single { provideOkHttpClient(get()) }
-        single { provideHttpLogginInterceptor() }
+        single { provideHttpLoggingInterceptor() }
+        single { provideApiService(get()) }
     }
 
 fun provideRetrofit(client: OkHttpClient): Retrofit =
@@ -27,7 +29,9 @@ fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
         .addInterceptor(interceptor)
         .build()
 
-fun provideHttpLogginInterceptor(): HttpLoggingInterceptor =
+fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
     HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BODY)
     }
+
+fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
