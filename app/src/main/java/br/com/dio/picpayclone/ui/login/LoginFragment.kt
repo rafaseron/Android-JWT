@@ -45,9 +45,9 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Desabilita a navegação para trás
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            // Não faça nada quando o usuário pressionar o botão de voltar
-        }
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            // Não faça nada quando o usuário pressionar o botão de voltar
+//        }
 
         componentesViewModel.hideBottomNavigation()
 
