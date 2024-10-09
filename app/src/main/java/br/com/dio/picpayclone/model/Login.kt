@@ -1,8 +1,8 @@
 package br.com.dio.picpayclone.model
 
 data class LoginRequest(
-    val login: String,
-    val senha: String,
+    val email: String,
+    val password: String,
 )
 
 data class LoginResponse(
