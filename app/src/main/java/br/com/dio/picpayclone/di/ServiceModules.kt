@@ -6,9 +6,9 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 val serviceModule =
     module {
@@ -22,7 +22,7 @@ val serviceModule =
 fun provideRetrofit(client: OkHttpClient): Retrofit =
     Retrofit
         .Builder()
-        .baseUrl("http://10.0.0.112:8080")
+        .baseUrl("https://yourapihere.com")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
@@ -32,6 +32,8 @@ fun provideOkHttpClient(interceptor: HttpLoggingInterceptor, authInterceptor: Au
         .Builder()
         .addInterceptor(interceptor)
         .addInterceptor(authInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
         .build()
 
 fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
