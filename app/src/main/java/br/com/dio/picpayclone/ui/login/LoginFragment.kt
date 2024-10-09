@@ -57,10 +57,13 @@ class LoginFragment : Fragment() {
         edtSenha = view.findViewById<EditText>(R.id.edt_senha)
         progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
-        val login = LoginRequest(login = edtLogin.toString(), senha = edtSenha.toString())
+        val login = LoginRequest(email = edtLogin.text.toString(), password = edtSenha.text.toString())
 
         buttonLogin.setOnClickListener {
-            viewModel.login(login)
+            viewModel.newPassword(edtSenha.text.toString())
+            viewModel.updateEmail(edtLogin.text.toString())
+
+            viewModel.login()
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.uiState.collect { state ->
@@ -84,7 +87,11 @@ class LoginFragment : Fragment() {
 
                 if (state.onError != null) {
                     Toast.makeText(requireContext(), "Ocorreu um erro", Toast.LENGTH_LONG).show()
-                    Log.e("LoginFragment", "${state.onError}")
+                }
+
+                if (state.loginError != null){
+                    Toast.makeText(requireContext(), "${state.loginError}", Toast.LENGTH_LONG)
+
                 }
             }
         }

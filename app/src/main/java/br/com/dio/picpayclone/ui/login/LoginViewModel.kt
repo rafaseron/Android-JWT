@@ -1,5 +1,6 @@
 package br.com.dio.picpayclone.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.dio.picpayclone.data.UsuarioLogado.token
@@ -17,6 +18,9 @@ data class LoginUiState(
     val onError: Exception? = null,
     val onLoading: Boolean = false,
     val loginSucess: Boolean = false,
+    val loginError: String? = null,
+    val email: String = "",
+    val senha: String = ""
 )
 
 class LoginViewModel :
@@ -27,11 +31,8 @@ class LoginViewModel :
     private var _uiState = MutableStateFlow(LoginUiState())
     val uiState = _uiState.asStateFlow()
 
-//    fun mudarTextoExemplo(){
-//        _uiState.value = _uiState.value.copy(texto = "newText")
-//    }
 
-    fun login(login: LoginRequest) {
+    private fun loginRequest(login: LoginRequest) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(onLoading = true)
             try {
@@ -40,6 +41,8 @@ class LoginViewModel :
                 if (!response.isSuccessful)
                     {
                         logout()
+                        _uiState.value = _uiState.value.copy(onLoading = false)
+                        _uiState.value = _uiState.value.copy(loginError = response.body().toString())
                         return@launch
                     }
 
@@ -48,6 +51,7 @@ class LoginViewModel :
                     token = it.token
                     _uiState.value = _uiState.value.copy(loginSucess = true)
                 }
+
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(onError = e)
             }
@@ -58,4 +62,21 @@ class LoginViewModel :
     fun logout()  {
         // Implementar a lógica de Logout aqui
     }
+
+    fun updateEmail(newEmail: String){
+        _uiState.value = _uiState.value.copy(email = newEmail)
+    }
+
+    fun newPassword(newPassword: String){
+        _uiState.value = _uiState.value.copy(senha = newPassword)
+    }
+
+    fun login(){
+        val email = uiState.value.email
+        val senha = uiState.value.senha
+
+        val loginRequest = LoginRequest(email = email, password = senha)
+        loginRequest(loginRequest)
+    }
+
 }
