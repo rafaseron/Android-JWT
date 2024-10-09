@@ -1,18 +1,22 @@
 package br.com.dio.picpayclone.di
 
+import br.com.dio.picpayclone.data.UsuarioLogado
 import br.com.dio.picpayclone.services.ApiService
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val serviceModule =
     module {
         single { provideRetrofit(get()) }
-        single { provideOkHttpClient(get()) }
+        single { provideOkHttpClient(get(), get()) }
         single { provideHttpLoggingInterceptor() }
         single { provideApiService(get()) }
+        single { provideAuthInterceptor() }
     }
 
 fun provideRetrofit(client: OkHttpClient): Retrofit =
@@ -23,10 +27,11 @@ fun provideRetrofit(client: OkHttpClient): Retrofit =
         .client(client)
         .build()
 
-fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
+fun provideOkHttpClient(interceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor): OkHttpClient =
     OkHttpClient
         .Builder()
         .addInterceptor(interceptor)
+        .addInterceptor(authInterceptor)
         .build()
 
 fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
@@ -35,3 +40,21 @@ fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
     }
 
 fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+fun provideAuthInterceptor(): AuthInterceptor{
+    return AuthInterceptor(UsuarioLogado.token)
+}
+
+class AuthInterceptor(private val token: String): Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+        val request = chain.request()
+
+        val authenticatedRequest = request.newBuilder()
+            .header("Authorization", "Bearer $token")
+            .build()
+
+        return chain.proceed(authenticatedRequest)
+    }
+
+}
