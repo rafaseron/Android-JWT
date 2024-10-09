@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="br.com.dio.picpayclone.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_login"
+            app:destination="@id/navigation_login"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_pagar"
@@ -41,6 +48,22 @@
             android:id="@+id/action_navigation_transferencia_to_navigation_pagar"
             app:destination="@id/navigation_pagar"
             app:popUpTo="@id/navigation_pagar"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="br.com.dio.picpayclone.ui.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim">
+        <action
+            android:id="@+id/action_navigation_login_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_login"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>
